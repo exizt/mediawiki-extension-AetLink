@@ -6,47 +6,24 @@
  * @author exizt
  * @license GPL-2.0-or-later
  */
-
-# namespace MediaWiki\Extension\AetLink;
-
 class AetLink {
 	# 설정값을 갖게 되는 멤버 변수
 	private static $config = null;
 
 	/**
-	 * 'BeforePageDisplay' 훅.
-	 *
-	 * @see https://www.mediawiki.org/wiki/Manual:Hooks/BeforePageDisplay
-	 */
-	public static function onBeforePageDisplay( OutputPage $out, Skin $skin ) {
-		# global $wgExtEzxCustomDisableLinks;
-		# $conf = array();
-		# $conf['disableLink'] = isset($wgExtEzxCustomDisableLinks) ? $wgExtEzxCustomDisableLinks: true;
-		self::debugLog('::onBeforePageDisplay');
-
-		# 설정 로드
-		$conf = self::getConfiguration();
-		# self::debugLog($conf);
-
-		# 링크 해제하는 스크립트 사용
-		if($conf['disable_external_link']){
-			///$modules[] = 'ext.AetCustom.disablelinks';
-		}
-
-		# 리소스모듈 추가
-		//$out->addModules( $modules );
-	}
-
-	/**
+	 * 'LinkerMakeExternalLink' 훅
+	 * 
+	 * '외부 링크'의 HTML을 처리하는 파서. 
+	 * 'false'를 반환해야 변경된 html이 적용된다고 함.
 	 * 
 	 * @see https://www.mediawiki.org/wiki/Manual:Hooks/LinkerMakeExternalLink
 	 */
 	public static function onLinkerMakeExternalLink( &$url, &$text, &$link, &$attribs, $linktype ) { 
 		# 설정 로드
-		$conf = self::getConfiguration();
+		$config = self::getConfiguration();
 
 		# 링크 해제하는 스크립트 사용
-		if($conf['disable_external_link']){
+		if($config['disable_external_link']){
 			# $url = '';
 			# $attribs['target'] = '';
 			$link = "<span data-origin-href='{$url}'>{$text}</span>";
@@ -55,6 +32,10 @@ class AetLink {
 	}
 
 	/**
+	 * 'HtmlPageLinkRendererEnd' 훅
+	 * 
+	 * 문서 페이지에서 링크가 있을 때, 렌더링을 처리하는 파서.
+	 * 링크의 갯수만큼 시행된다.
 	 * 
 	 * @see https://www.mediawiki.org/wiki/Manual:Hooks/HtmlPageLinkRendererEnd
 	 */
@@ -66,6 +47,9 @@ class AetLink {
 		return true;
 	}
 
+	/**
+	 * 인터위키 링크의 타겟을 변경하는 메소드.
+	 */
 	private static function addInterwikiLinkTarget( &$attribs ){
 		# class 속성이 있는지 확인. 이게 없으면 뭔가 비교하기가 어려우므로...
 		if ( array_key_exists( 'class', $attribs ) ) {
@@ -73,22 +57,21 @@ class AetLink {
 		} else {
 			return;
 		}
+
+		# interwiki는 'extiw' 클래스를 갖고 있으므로, 이것이 없는 경우는 처리하지 않음.
+		if ( strpos( $class, 'extiw' ) === false ) {
+			return;
+		}
+
 		self::debugLog('::addInterwikiLinkTarget');
 
 		# 설정 로드
 		$config = self::getConfiguration();
-		self::debugLog($config);
-	
-		# 인터위키의 target="_blank"로 변경
-		# 인터위키의 링크 타겟을 지정할 수 있게 함.
 		if ($config['interwiki_link_target'] && strlen($config['interwiki_link_target']) > 2 ){
-
 			# 인터위키의 target="_blank"로 변경
 			# 인터위키의 링크 타겟을 지정할 수 있게 함.
-			if ( strpos( $class, 'extiw' ) > -1 ) {
-				$attribs['target'] = $config['interwiki_link_target'];
-				$attribs['rel'] = 'noreferrer noopener';
-			}
+			$attribs['target'] = $config['interwiki_link_target'];
+			$attribs['rel'] = 'noreferrer noopener';
 		}
 
 	}
@@ -125,6 +108,7 @@ class AetLink {
 			}
 		}
 
+		# self::debugLog($config);
 		self::$config = $config;
 		return $config;
 	}
