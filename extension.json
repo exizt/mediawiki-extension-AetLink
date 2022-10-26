@@ -13,20 +13,8 @@
         "AetLink": "src/AetLink.php"
     },
     "Hooks": {
-        "BeforePageDisplay": "AetLink::onBeforePageDisplay",
         "HtmlPageLinkRendererEnd": "AetLink::onHtmlPageLinkRendererEnd",
         "LinkerMakeExternalLink": "AetLink::onLinkerMakeExternalLink"
-    },
-    "ResourceFileModulePaths": {
-        "localBasePath": "resources",
-        "remoteExtPath": "AetLink/resources"
-    },
-    "ResourceModules": {
-        "ext.AetLink.disablelinks": {
-            "scripts": [
-                "disable_external_links.js"
-            ]
-        }
     },
     "manifest_version": 2
 }

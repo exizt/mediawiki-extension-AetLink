@@ -49,7 +49,7 @@ class AetLink {
 		if($conf['disable_external_link']){
 			# $url = '';
 			# $attribs['target'] = '';
-			$link = "{$text}";
+			$link = "<span data-origin-href='{$url}'>{$text}</span>";
 		}
 		return false;
 	}
