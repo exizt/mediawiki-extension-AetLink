@@ -5,8 +5,8 @@ Links
 
 
 ## Requirements
-- PHP 7.4.3 or later (tested up to 7.4.30)
-- MediaWiki 1.35 or later (tested up to 1.35)
+- PHP 7.4.3 or later
+- MediaWiki 1.35 or later
 
 
 ## Installation
