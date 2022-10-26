@@ -1,0 +1,32 @@
+{
+    "name": "AetLink",
+    "version": "1.1.0",
+    "author": "[https://github.com/exizt exizt]",
+    "url": "https://github.com/exizt/mw-ext-AetLink",
+    "description": "링크 타겟 등의 설정을 도와주는 확장 기능",
+    "license-name": "GPL-2.0-or-later",
+    "type": "other",
+    "requires": {
+        "MediaWiki": ">= 1.35.0"
+    },
+    "AutoloadClasses": {
+        "AetLink": "src/AetLink.php"
+    },
+    "Hooks": {
+        "BeforePageDisplay": "AetLink::onBeforePageDisplay",
+        "HtmlPageLinkRendererEnd": "AetLink::onHtmlPageLinkRendererEnd",
+        "LinkerMakeExternalLink": "AetLink::onLinkerMakeExternalLink"
+    },
+    "ResourceFileModulePaths": {
+        "localBasePath": "resources",
+        "remoteExtPath": "AetLink/resources"
+    },
+    "ResourceModules": {
+        "ext.AetLink.disablelinks": {
+            "scripts": [
+                "disable_external_links.js"
+            ]
+        }
+    },
+    "manifest_version": 2
+}
