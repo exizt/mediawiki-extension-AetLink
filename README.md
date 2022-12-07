@@ -32,4 +32,4 @@ wfLoadExtension( 'AetLink' );
 - `$wgAetLink['interwiki_link_target']`
     - 인터위키 타겟을 지정할 수 있는 옵션. 주로 `'_blank'`로 설정할 수 있다.
         - type: `string`
-        - default : `''`
+        - default : `''` (empty string)
