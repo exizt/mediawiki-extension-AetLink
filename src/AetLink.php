@@ -22,13 +22,25 @@ class AetLink {
 		# 설정 로드
 		$config = self::getConfiguration();
 
-		# 링크 해제하는 스크립트 사용
+		# 외부 링크를 해제하는 옵션 사용시
 		if($config['disable_external_link']){
+			global $wgServer;
+			# 문자열 앞부분을 확인해서, 서버 설정과 동일한 경우. (즉, 외부 연결이 아닌 경우)
+			# 링크를 해제하지 않도록 함.
+			# strpos를 사용했지만, php 8 이후에는 str_starts_with(haystack, needle) 함수가 있다.
+			if(strpos($url, $wgServer) === 0){
+			# if(substr_compare($url, $wgServer, 0, strlen($wgServer)) === 0){
+				return;
+			}
+			# 링크를 해제하고 문자열로 치환함.
 			# $url = '';
 			# $attribs['target'] = '';
 			$link = "<span data-origin-href='{$url}'>{$text}</span>";
+
+			# false로 반환해야 변경이 적용된다고 함.
+			return false;
 		}
-		return false;
+		return;
 	}
 
 	/**
