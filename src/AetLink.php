@@ -12,21 +12,21 @@ class AetLink {
 
 	/**
 	 * 'LinkerMakeExternalLink' 훅
-	 * 
-	 * '외부 링크'의 HTML을 처리하는 파서. 
+	 *
+	 * '외부 링크'의 HTML을 처리하는 파서.
 	 * 'false'를 반환해야 변경된 html이 적용된다고 함.
-	 * 
+	 *
 	 * @param string &$url Link URL
 	 * @param string &$text Link text
 	 * @param string &$link New link HTML (if returning false)
 	 * @param string[] &$attribs Attributes to be applied
 	 * @param string $linkType External link type
 	 * @return bool|void True or no return value to continue or false to abort
-	 * 
+	 *
 	 * @see https://www.mediawiki.org/wiki/Manual:Hooks/LinkerMakeExternalLink
 	 * @see https://github.com/wikimedia/mediawiki/blob/master/includes/Hook/LinkerMakeExternalLinkHook.php
 	 */
-	public static function onLinkerMakeExternalLink( &$url, &$text, &$link, &$attribs, $linktype ) { 
+	public static function onLinkerMakeExternalLink( &$url, &$text, &$link, &$attribs, $linktype ) {
 		# 설정 로드
 		$config = self::getConfiguration();
 
@@ -53,10 +53,10 @@ class AetLink {
 
 	/**
 	 * 'HtmlPageLinkRendererEnd' 훅
-	 * 
+	 *
 	 * 문서 페이지에서 링크가 있을 때, 렌더링을 처리하는 파서.
 	 * 링크의 갯수만큼 시행된다.
-	 * 
+	 *
 	 * @param LinkRenderer $linkRenderer
 	 * @param LinkTarget $target LinkTarget object that the link is pointing to
 	 * @param bool $isKnown Whether the page is known or not
@@ -68,21 +68,21 @@ class AetLink {
 	 * @return bool|void True or no return value to continue or false to abort. If you return
 	 *   true, an `<a>` element with HTML attributes $attribs and contents $html will be
 	 *   returned. If you return false, $ret will be returned.
-	 * 
+	 *
 	 * @see https://www.mediawiki.org/wiki/Manual:Hooks/HtmlPageLinkRendererEnd
 	 * @see https://github.com/wikimedia/mediawiki/blob/master/includes/linker/Hook/HtmlPageLinkRendererEndHook.php
 	 */
 	public static function onHtmlPageLinkRendererEnd( $linkRenderer, $target, $isKnown, &$text, &$attribs, &$ret ){
 		# self::debugLog('::onHtmlPageLinkRendererEnd');
-		
+
 		self::addInterwikiLinkTarget($attribs);
-		
+
 		return true;
 	}
 
 	/**
 	 * 인터위키 링크의 타겟을 변경하는 메소드.
-	 * 
+	 *
 	 * @param string[] &$attribs Final HTML attributes of the `<a>` tag, after processing, in
 	 *   associative array form
 	 */
@@ -109,7 +109,6 @@ class AetLink {
 			$attribs['target'] = $config['interwiki_link_target'];
 			$attribs['rel'] = 'noreferrer noopener';
 		}
-
 	}
 
 	/**
@@ -151,7 +150,7 @@ class AetLink {
 
 	/**
 	 * 전역 설정값 조회
-	 * 
+	 *
 	 * @return array|null 설정된 값 또는 undefined|null를 반환
 	 */
 	private static function readSettings(){
@@ -161,7 +160,7 @@ class AetLink {
 
 	/**
 	 * 디버그 로깅 관련
-	 * 
+	 *
 	 * @param string|object $msg 디버깅 메시지 or 오브젝트
 	 */
 	private static function debugLog($msg){
@@ -172,7 +171,7 @@ class AetLink {
 		if( !$isDebugToolbarEnabled ){
 			return;
 		}
-		
+
 		# 로깅
 		$settings = self::readSettings() ?? [];
 		$isDebug = $settings['debug'] ?? false;
