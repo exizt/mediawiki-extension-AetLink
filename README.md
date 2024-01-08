@@ -1,7 +1,7 @@
 # AetLink
 
 Links
-* Git : https://github.com/exizt/mw-ext-AetLink
+* Git : https://github.com/exizt/mediawiki-extension-AetLink
 
 
 ## Requirements
@@ -11,7 +11,7 @@ Links
 
 ## cloning a repository
 ```shell
-git clone git@github.com:exizt/mw-ext-AetLink.git AetLink
+git clone git@github.com:exizt/mediawiki-extension-AetLink.git AetLink
 ```
 
 
